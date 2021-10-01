@@ -9,19 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.APIModule = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const jwt_auth_guard_1 = require("../Auth/jwt-auth.guard");
 const users_module_1 = require("./Users/users.module");
 let APIModule = class APIModule {
 };
 APIModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule],
-        controllers: [],
-        providers: [
-            {
-                provide: core_1.APP_GUARD,
-                useClass: jwt_auth_guard_1.JwtAuthGuard,
-            },
+        imports: [
+            users_module_1.UsersModule,
+            core_1.RouterModule.register([
+                {
+                    path: 'api',
+                    children: [
+                        {
+                            path: 'users',
+                            module: users_module_1.UsersModule,
+                        },
+                    ],
+                },
+            ]),
         ],
     })
 ], APIModule);
