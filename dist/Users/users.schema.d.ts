@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 export declare type UserDocument = User & Document;
 export declare class User {
     _id: string;
-    userName: string;
+    username: string;
     email: string;
     password: string;
     posts: string[];

@@ -10,7 +10,7 @@ export class User {
   _id: string;
 
   @Prop({ unique: true })
-  userName: string;
+  username: string;
 
   @Prop({ unique: true })
   email: string;
@@ -19,7 +19,7 @@ export class User {
   password: string;
 
   @Prop()
-  posts: string[];  
+  posts: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

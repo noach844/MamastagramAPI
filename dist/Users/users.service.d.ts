@@ -1,7 +1,11 @@
 import { Model } from 'mongoose';
-import { User, UserDocument } from './users.schema';
+import { UserDocument } from './users.schema';
+import { JwtService } from '@nestjs/jwt';
 export declare class UsersService {
     private userModel;
-    constructor(userModel: Model<UserDocument>);
-    auth(username: string, password: string): Promise<User[]>;
+    private jwtService;
+    constructor(userModel: Model<UserDocument>, jwtService: JwtService);
+    auth(username: string, password: string): Promise<{
+        access_token: string;
+    }>;
 }

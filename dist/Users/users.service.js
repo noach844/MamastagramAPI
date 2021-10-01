@@ -17,20 +17,28 @@ const mongoose_1 = require("mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
 const users_schema_1 = require("./users.schema");
+const jwt_1 = require("@nestjs/jwt");
 let UsersService = class UsersService {
-    constructor(userModel) {
+    constructor(userModel, jwtService) {
         this.userModel = userModel;
+        this.jwtService = jwtService;
     }
     async auth(username, password) {
-        return await this.userModel
-            .find({ userName: username, password: password })
+        const user = await this.userModel
+            .find({ username: username, password: password })
             .exec();
+        if (user.length) {
+            console.log(user[0]);
+            return { access_token: this.jwtService.sign(user[0].toJSON()) };
+        }
+        return null;
     }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)(users_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        jwt_1.JwtService])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map
