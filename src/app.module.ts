@@ -1,23 +1,19 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { JwtAuthGuard } from './Users/jwt-auth.guard';
-import { UsersModule } from './Users/users.module';
+import { UsersModule } from './API/Users/users.module';
+import { AuthModule } from './Auth/auth.module';
+import { config } from 'dotenv';
 
+config();
 @Module({
   imports: [
+    AuthModule,
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/Mamastagram'),
+    MongooseModule.forRoot(process.env.MONGO_URI),
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtAuthGuard,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

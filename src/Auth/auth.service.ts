@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './users.schema';
+import { User, UserDocument } from '../API/Users/users.schema';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class UsersService {
+export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private jwtService: JwtService,

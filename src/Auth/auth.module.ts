@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
-import { User, UserSchema } from './users.schema';
+import { User, UserSchema } from '../API/Users/users.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
+import { jwtConstants } from '../Auth/constants';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '2h' },
     }),
   ],
-  controllers: [UsersController],
-  providers: [UsersService, JwtStrategy],
+  controllers: [AuthController],
+  providers: [JwtStrategy, AuthService],
 })
-export class UsersModule {}
+export class AuthModule {}
