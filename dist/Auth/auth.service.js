@@ -28,10 +28,10 @@ let AuthService = class AuthService {
             .find({ username: username, password: password })
             .exec();
         if (user.length) {
-            console.log(user[0]);
-            return { access_token: this.jwtService.sign(user[0].toJSON()) };
+            const token = this.jwtService.sign(user[0].toJSON());
+            return { access_token: token, exp: this.jwtService.verify(token).exp };
         }
-        return null;
+        return;
     }
 };
 AuthService = __decorate([

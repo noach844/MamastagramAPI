@@ -5,5 +5,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     auth(loginDto: CreateLoginDto): Promise<{
         access_token: string;
+        exp: any;
     }>;
+    isAuth(): boolean;
 }

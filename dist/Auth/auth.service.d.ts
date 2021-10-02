@@ -7,5 +7,6 @@ export declare class AuthService {
     constructor(userModel: Model<UserDocument>, jwtService: JwtService);
     auth(username: string, password: string): Promise<{
         access_token: string;
+        exp: any;
     }>;
 }

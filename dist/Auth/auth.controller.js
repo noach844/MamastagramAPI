@@ -16,12 +16,20 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const user_dtos_1 = require("../API/Users/user.dtos");
 const auth_service_1 = require("./auth.service");
+const jwt_auth_guard_1 = require("./jwt-auth.guard");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
     async auth(loginDto) {
-        return await this.authService.auth(loginDto.username, loginDto.password);
+        const isAuth = await this.authService.auth(loginDto.username, loginDto.password);
+        if (isAuth) {
+            return isAuth;
+        }
+        throw new common_1.UnauthorizedException();
+    }
+    isAuth() {
+        return true;
     }
 };
 __decorate([
@@ -31,6 +39,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dtos_1.CreateLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "auth", null);
+__decorate([
+    (0, common_1.Get)('/isAuth'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "isAuth", null);
 AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
